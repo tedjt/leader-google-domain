@@ -3,6 +3,7 @@ var assert = require('assert');
 var Plugin = require('..');
 
 describe('leader-goolge-domain', function () {
+  this.timeout(30000);
 
   var plugin = Plugin();
 
@@ -21,6 +22,7 @@ describe('leader-goolge-domain', function () {
     var person = { email: 'ilya@segment.io' };
     var context = {};
     plugin.fn(person, context, function (err) {
+      console.log(err);
       if (err) return done(err);
       var domain = person.domain;
       assert(domain);

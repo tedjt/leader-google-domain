@@ -1,6 +1,6 @@
 
 var extend = require('extend');
-var google = require('google');
+var google = require('google')();
 var objCase = require('obj-case');
 
 /**
@@ -23,10 +23,15 @@ function plugin () {
   return function domainPlugin (person, context, next) {
     var email = getEmail(person, context);
     if (!email) return next();
-    var domain = email.split('@')[1].split('.').slice(-2).join('.');
+    var domainarr = email.split('@')[1].split('.');
+    var domain = domainarr.slice(-2).join('.');
+    if (domainarr.length > 2 && domainarr.slice(-1).length < 3 && domainarr.slice(-2).length < 4){
+      domain = domainarr.slice(-3).join('.');
+    }
     // want a site specific search for domain
     // e.g. site:stacklead.com stacklead.com
-    google('info:' + domain, function (err, nextPage, results) {
+    google.query('info:' + domain, function (err, nextPage, results) {
+      results = results.links;
       if (err) return next(err);
       if (results.length > 0) {
         var result = results[0];
