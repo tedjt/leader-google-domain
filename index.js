@@ -31,8 +31,8 @@ function plugin () {
     // want a site specific search for domain
     // e.g. site:stacklead.com stacklead.com
     google.query('info:' + domain, function (err, nextPage, results) {
-      results = results.links;
       if (err) return next(err);
+      results = results.links;
       if (results.length > 0) {
         var result = results[0];
         var googleDomain = {
