@@ -20,7 +20,7 @@ module.exports = function () {
  */
 
 function plugin () {
-  return function domainPlugin (person, context, next) {
+  return function googleDomainPlugin (person, context, next) {
     var email = getEmail(person, context);
     if (!email) return next();
     var domainarr = email.split('@')[1].split('.');
