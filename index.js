@@ -21,9 +21,9 @@ module.exports = function () {
 
 function plugin () {
   return function googleDomainPlugin (person, context, next) {
-    var email = getEmail(person, context);
-    if (!email) return next();
-    var domainarr = email.split('@')[1].split('.');
+    var interestingDomain = getInterestingDomain(person, context);
+    if (!interestingDomain) return next();
+    var domainarr = interestingDomain.split('.');
     var domain = domainarr.slice(-2).join('.');
     if (domainarr.length > 2 && domainarr.slice(-1).length < 3 && domainarr.slice(-2).length < 4){
       domain = domainarr.slice(-3).join('.');
@@ -64,17 +64,20 @@ function plugin () {
  */
 
 function wait (person, context) {
-  return getEmail(person, context);
+  return getInterestingDomain(person, context);
 }
 
 /**
- * Get the persons email.
+ * Get an interesting domain.
  *
  * @param {Object} context
  * @param {Object} person
  * @return {String}
  */
 
-function getEmail (person, context) {
-  return objCase(person, 'email');
+function getInterestingDomain (person, context) {
+  if (person.domain && !person.domain.disposable && !person.domain.personal)
+    return person.domain.name;
+  else
+    return null;
 }

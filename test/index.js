@@ -13,13 +13,13 @@ describe('leader-goolge-domain', function () {
   });
 
   it('should not wait if there is a company name', function () {
-    var person = { email: 'joe@mailinator.com' };
+    var person = { domain: {name: 'mailinator.com' }};
     var context = {};
     assert(plugin.wait(person, context));
   });
 
   it('should google for an email domain', function (done) {
-    var person = { email: 'ilya@segment.io' };
+    var person = { domain: {name: 'segment.io' }};
     var context = {};
     plugin.fn(person, context, function (err) {
       console.log(err);
