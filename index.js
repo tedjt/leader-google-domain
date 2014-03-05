@@ -21,9 +21,9 @@ module.exports = function () {
 
 function plugin () {
   return function googleDomainPlugin (person, context, next) {
-    var interestingDomain = getInterestingDomain(person, context);
-    if (!interestingDomain) return next();
-    var domainarr = interestingDomain.split('.');
+    var interesting = getInterestingDomain(person, context);
+    if (!interesting) return next();
+    var domainarr = interesting.split('.');
     var domain = domainarr.slice(-2).join('.');
     if (domainarr.length > 2 && domainarr.slice(-1).length < 3 && domainarr.slice(-2).length < 4){
       domain = domainarr.slice(-3).join('.');
