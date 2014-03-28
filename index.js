@@ -1,6 +1,6 @@
 
 var extend = require('extend');
-var google = require('google')();
+var Google = require('google');
 var objCase = require('obj-case');
 
 /**
@@ -9,8 +9,8 @@ var objCase = require('obj-case');
  * @returns {Object}
  */
 
-module.exports = function () {
-  return { fn: plugin(), wait: wait };
+module.exports = function (proxyManager) {
+  return { fn: plugin(proxyManager), wait: wait };
 };
 
 /**
@@ -19,7 +19,8 @@ module.exports = function () {
  * @return {Function}
  */
 
-function plugin () {
+function plugin (proxyManager) {
+  var google = proxyManager ? Google({proxyManager: proxyManager}) : Google();
   return function googleDomainPlugin (person, context, next) {
     var interesting = getInterestingDomain(person, context);
     if (!interesting) return next();
