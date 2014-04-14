@@ -2,6 +2,7 @@
 var extend = require('extend');
 var Google = require('google');
 var objCase = require('obj-case');
+var leaderUtils = require('leader-utils');
 
 /**
  * Create a new leader plugin.
@@ -22,7 +23,7 @@ module.exports = function (proxyManager) {
 function plugin (proxyManager) {
   var google = proxyManager ? Google({proxyManager: proxyManager}) : Google();
   return function googleDomainPlugin (person, context, next) {
-    var interesting = getInterestingDomain(person, context);
+    var interesting = leaderUtils.getInterestingDomain(person);
     if (!interesting) return next();
     var domainarr = interesting.split('.');
     var domain = domainarr.slice(-2).join('.');
@@ -65,20 +66,5 @@ function plugin (proxyManager) {
  */
 
 function wait (person, context) {
-  return getInterestingDomain(person, context);
-}
-
-/**
- * Get an interesting domain.
- *
- * @param {Object} context
- * @param {Object} person
- * @return {String}
- */
-
-function getInterestingDomain (person, context) {
-  if (person.domain && !person.domain.disposable && !person.domain.personal)
-    return person.domain.name;
-  else
-    return null;
+  return leaderUtils.getInterestingDomain(person);
 }
